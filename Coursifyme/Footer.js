@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#2AB598',
         width: 428,
-        height: 222,
+        height: 300,
+        
     },
     imgRodape:{
         width: 172,

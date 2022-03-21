@@ -104,7 +104,8 @@ export default function Home(){
                 
             </View>
             <View style={{zIndex: -1}}>
-            <FlatList
+            
+                <FlatList
                 data={data}
                 keyExtractor={item => item.id}   
                 ListFooterComponent={() =>  <Footer/>}
@@ -122,7 +123,9 @@ export default function Home(){
                     
 
                     </View>}
-            />
+                    
+                />
+            
             </View>
            
 
