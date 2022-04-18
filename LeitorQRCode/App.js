@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Linking } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {useState, useEffect} from 'react'
+import BarcodeMask from 'react-native-barcode-mask';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -31,11 +32,18 @@ export default function App() {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
-      />
+        />
+       <BarcodeMask></BarcodeMask>
+
+      
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    
+
     </View>
+     
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -44,4 +52,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
