@@ -1,43 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Image, SafeAreaView } from 'react-native';
-import { useState, useEffect } from 'react'
-import api from './api'
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { Provider as PaperProvider } from 'react-native-paper';
 
-export default function App() {
-  const [pokemonList, setPokemonList] = useState([])
+import Home from './src/home';
+import Details from './src/details'
 
-  useEffect(() => {
-    for( let i = 1; i< 20; i++) {
-      const url = `/pokemon/${i}`
-      api.get(url)
-      .then(response => setPokemonList(oldArray => [...oldArray, response.data]))
-    }
-    if(pokemonList){
-      console.log(pokemonList)
-    }
-  },[])
+const Stack = createNativeStackNavigator();
 
-
+export default function App(){
   return(
-    <FlatList
-    data={pokemonList}
-    idExtractor={item => item.id}
-    renderItem={({item}) => (
-      <SafeAreaView style={styles.container}>
-        <Text>{item.name}</Text>
-        <Image source={{uri: item.sprites.front_default}} style={{width: 30, height: 30}}></Image>
-      </SafeAreaView>
-  )}
-    />
+    <PaperProvider>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} options={{
+          title: 'Pokedex',
+          headerTitleAlign: 'center',
+          headerStyle:{
+            backgroundColor: '#121212',
+            
+          },
+          headerTintColor: '#fff'
+        }}/>
+        <Stack.Screen name='Details' component={Details} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+    </PaperProvider>
   )
-
-  }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
