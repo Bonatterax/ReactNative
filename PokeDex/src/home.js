@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Image, SafeAreaView, TouchableOpacity
 import { useState, useEffect } from 'react'
 import api from '../api'
 import { useNavigation } from '@react-navigation/native';
-
+import SearchBar from "react-native-dynamic-search-bar";
 
 export default function App() {
   const [pokemonList, setPokemonList] = useState([])
@@ -161,8 +161,21 @@ export default function App() {
       return {color: '#7037FF'}
     }
   }
+
+  function searchPokemon(text){
+    const url = `/pokemon/${text}`
+    api.get(url)
+    .then(response => setPokemonList(response))
+  }
+
   return(
     <View style={styles.container}>
+      <SearchBar
+      placeholder="Digite o nome de um Pokemon"
+      onPress={(text) => searchPokemon(text)}
+      onChangeText={(text) => console.log(text)}
+      style={{marginTop: 10}}
+      />
     <FlatList
     data={orderedList}
     idExtractor={item => item.id}

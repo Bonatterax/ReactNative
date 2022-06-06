@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, SafeAreaView, TouchableOpacity, ImageBackground } from 'react-native';
 import { useState, useEffect } from 'react'
 import api from '../api'
 import { useRoute, useNavigation, StackActions } from '@react-navigation/native' 
@@ -7,6 +7,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {ProgressView} from "@react-native-community/progress-view";
 import { AntDesign } from '@expo/vector-icons'; 
 import * as Progress from 'react-native-progress';
+
 
 export default function Details(){
     const route = useRoute();
@@ -159,9 +160,12 @@ export default function Details(){
               {route.params?.item.id < 10 ? <Text style={styles.pokemonID}>#00{route.params?.item.id}</Text> : route.params?.item.id < 100 ? <Text style={styles.pokemonID}>#0{route.params?.item.id}</Text> : <Text style={styles.pokemonID}>#{route.params?.item.id}</Text>}
           </View>
             
-            <Image source={{uri: route.params?.item.sprites.other.home.front_default}} style={{width: 300, height: 300}}></Image>
-            
+            <ImageBackground source={require('../assets/Pokeball-PNG-Free-Download.png')} style={{flex: 1,tintColor: '#F7F7F7'}}>
+            <Image source={{uri: route.params?.item.sprites.other.home.front_default}} style={{width: 300, height: 300, overflow: 'visible'}}></Image>
+            </ImageBackground>
+
             <View style={styles.dataContainer}>
+                
                 <View style={styles.rowContainerTypes}>
                 {route.params?.item.types.map(function(item, i){
                     return <TouchableWithoutFeedback style={[styles.types, getStyle(item.type.name)]}>
@@ -171,55 +175,65 @@ export default function Details(){
                 </View>
             
                 <Text style={[styles.about, getTextStyle(route.params?.item.types[0].type.name)]}>About</Text>
-                <View style={{flexDirection: 'row', marginTop: 20}}>
+                <View style={{flexDirection: 'row', marginTop: 20, marginLeft: 20}}>
                   <View style={{flexDirection: 'column', marginRight: 20}}>
                       <Text>{route.params?.item.weight/10} kg</Text>
-                      <Text>Weight</Text>
+                      <Text style={{marginTop: 20,  color: '#666666'}}>Weight</Text>
                   </View>
 
-                  <View style={{flexDirection: 'column', marginRight: 20}}>
+                  <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0'}}></View>
+
+                  <View style={{flexDirection: 'column', marginRight: 20, marginLeft: 20}}>
                       <Text>{route.params?.item.height/10} m</Text>
-                      <Text>Height</Text>
+                      <Text style={{marginTop: 20,  color: '#666666'}}>Height</Text>
                   </View>
 
+                  <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0'}}></View>
                   
-                  <View style={{flexDirection: 'column'}}>
-                      <Text>{route.params?.item.moves[0].move.name}</Text>
-                      <Text>{route.params?.item.moves[1].move.name}</Text>
-                      <Text>Moves</Text>
+                  <View style={{flexDirection: 'column', marginLeft: 20}}>
+                      <Text style={{textTransform: 'capitalize'}}>{route.params?.item.moves[0].move.name}</Text>
+                      <Text style={{textTransform: 'capitalize'}}>{route.params?.item.moves[1].move.name}</Text>
+                      <Text style={{marginTop: 3, color: '#666666'}}>Moves</Text>
                   </View>
                   
                 </View>
                 <Text style={{marginTop: 20}}>{pokeDesc}</Text>
                 <Text style={[styles.about, getTextStyle(route.params?.item.types[0].type.name)]}>Base Stats</Text>
                 <View style={styles.rowContainer}>
-                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>HP</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[0].base_stat}</Text>
+                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>    HP</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[0].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[0].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[0].base_stat}</Text>}
+                    
                     <Progress.Bar progress={statusOne} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>ATK</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[1].base_stat}</Text>
+                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>  ATK</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[1].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[1].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[1].base_stat}</Text>}
                     <Progress.Bar progress={statusTwo} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>DEF</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[2].base_stat}</Text>
+                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>  DEF</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[2].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[2].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[2].base_stat}</Text>}
                     <Progress.Bar progress={statusThree} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
                 <View style={styles.rowContainer}>
                     <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>SATK</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[3].base_stat}</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[3].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[3].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[3].base_stat}</Text>}
                     <Progress.Bar progress={statusFour} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
                 <View style={styles.rowContainer}>
                     <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>SDEF</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[4].base_stat}</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[4].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[4].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[4].base_stat}</Text>}
                     <Progress.Bar progress={statusFive} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>SPD</Text>
-                    <Text style={styles.textRow}>{route.params?.item.stats[5].base_stat}</Text>
+                    <Text style={[styles.stats, getTextStyle(route.params?.item.types[0].type.name)]}>  SPD</Text>
+                    <View style={{height: '100%', width: 1, backgroundColor: '#E0E0E0', marginLeft: 5}}></View>
+                    {route.params?.item.stats[5].base_stat > 100 ? <Text style={styles.textRow}>{route.params?.item.stats[5].base_stat}</Text> : <Text style={styles.textRow}>0{route.params?.item.stats[5].base_stat}</Text>}
                     <Progress.Bar progress={statusSix} width={200} height={15} color={ getBarStyle(route.params?.item.types[0].type.name)}/>
                 </View>
             </View>
@@ -249,7 +263,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     textRow: {
-        marginLeft: 10
+        marginLeft: 5,
+        marginRight: 5
     }, 
     pokemonName: {
         color: '#FFF', 
